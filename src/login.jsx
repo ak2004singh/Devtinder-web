@@ -23,6 +23,7 @@ export default function Login() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error,setError]=useState('');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,6 +33,7 @@ export default function Login() {
   }, []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const handleLogin = async()=>{
     try{
       const res = await axios.post('http://localhost:3000/signin',{
@@ -45,7 +47,7 @@ export default function Login() {
       console.log(res.data);
       return navigate('/feed');
     }catch(err){
-      console.log(err)
+      setError(err?.response?.data||'Something went wrong!');
     }
   }
   const goNext = () => setCurrentImageIndex((prev) => (prev + 1) % imageList.length);
@@ -76,6 +78,7 @@ export default function Login() {
                 Forgot password?
               </button>
             </div>
+            <p className=''>{error}</p>
             <button
               type="submit"
               className="w-full py-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 font-semibold"
