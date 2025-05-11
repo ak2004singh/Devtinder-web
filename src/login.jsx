@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { addUser } from './utils/userSlice';
+import { useNavigate } from 'react-router-dom';
 const imageList = [
 '/assets/1.png',
 '/assets/2.png',
@@ -17,6 +21,8 @@ const imageList = [
 export default function Login() {
   const [mode, setMode] = useState('login');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,7 +30,24 @@ export default function Login() {
     }, 6000);
     return () => clearInterval(interval);
   }, []);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogin = async()=>{
+    try{
+      const res = await axios.post('http://localhost:3000/signin',{
+        email: email,
+        password: password
+    },{
+      withCredentials: true,
+    });
+    
+    dispatch(addUser(res.data));
+      console.log(res.data);
+      return navigate('/feed');
+    }catch(err){
+      console.log(err)
+    }
+  }
   const goNext = () => setCurrentImageIndex((prev) => (prev + 1) % imageList.length);
   const goPrev = () => setCurrentImageIndex((prev) => (prev - 1 + imageList.length) % imageList.length);
 
@@ -37,12 +60,12 @@ export default function Login() {
         return (
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium">Email</label>
-              <input id="email" type="email" required className={sharedInputClasses} />
+              <label htmlFor="email" className="block text-sm font-medium" >Email</label>
+              <input value={email} onChange={(e)=>setEmail(e.target.value)} id="email" type="email" required className={sharedInputClasses}  />
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium">Password</label>
-              <input id="password" type="password" required className={sharedInputClasses} />
+              <input id="password" value={password} onChange={(e)=>setPassword(e.target.value)} type="password" required className={sharedInputClasses} />
             </div>
             <div className="flex items-center justify-between text-sm">
               <label className="inline-flex items-center">
@@ -56,8 +79,9 @@ export default function Login() {
             <button
               type="submit"
               className="w-full py-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 font-semibold"
+              onClick={handleLogin}
             >
-              Login
+              Login Karle Bhai 
             </button>
             <p className="text-center text-sm">
               Don’t have an account?{' '}
