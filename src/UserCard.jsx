@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaMapMarkerAlt, FaVenusMars } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaVenusMars, FaHeart, FaTimes } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const UserCard = ({ user, onLike, onIgnore }) => {
   return (
@@ -49,17 +50,24 @@ const UserCard = ({ user, onLike, onIgnore }) => {
       </div>
 
       {/* Buttons */}
-      <div className="flex justify-between items-center px-6 pb-5 mt-auto">
+      <div className="flex justify-between items-center px-6 pb-5 mt-auto gap-4">
         <button
           onClick={onIgnore}
-          className="bg-red-500 hover:bg-red-600 text-white text-sm px-6 py-2 rounded-full shadow"
+          className="flex items-center gap-2 bg-gradient-to-r from-red-400 to-red-600 text-white text-sm font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-200"
         >
+          <motion.div whileHover={{ scale: 1.3 }} transition={{ type: 'spring', stiffness: 300 }}>
+            <FaTimes className="text-sm" />
+          </motion.div>
           Ignore
         </button>
+
         <button
           onClick={onLike}
-          className="bg-green-500 hover:bg-green-600 text-white text-sm px-6 py-2 rounded-full shadow"
+          className="flex items-center gap-2 bg-gradient-to-r from-green-400 to-green-600 text-white text-sm font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-200"
         >
+          <motion.div whileHover={{ scale: 1.3 }} transition={{ type: 'spring', stiffness: 300 }}>
+            <FaHeart className="text-sm" />
+          </motion.div>
           Interested
         </button>
       </div>
