@@ -1,9 +1,18 @@
 import React from 'react'
-
-const profile = () => {
+import Userprev from './Userprev'
+import { useSelector } from 'react-redux'
+import { Store } from 'lucide-react'
+const Profile = () => {
+    const user = useSelector((store)=>store.user).user;
+    console.log(user);
+    if(!user)
+        return ;
   return (
-    <div>profile</div>
+   <div>
+     <div>profile</div>
+     <Userprev user = {user}/>
+   </div>
   )
 }
 
-export default profile
+export default Profile

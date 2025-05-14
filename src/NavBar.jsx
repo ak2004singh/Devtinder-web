@@ -5,7 +5,7 @@ import { Link , useNavigate} from 'react-router-dom';
 import { removeUser } from './utils/userSlice';
 
 const NavBar = () => {
-    const user = useSelector((store)=>store.user);
+    const user = useSelector((store)=>store.user).user;
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleLogout = async ()=>{
@@ -23,7 +23,8 @@ const NavBar = () => {
     <div className="flex-1 ">
         <Link to = "/" className="btn btn-ghost text-xl">🧑‍💻 DevTinder</Link>
     </div>
-    {user&&(<div className="flex gap-2">
+    {user&&(
+        <div className="flex gap-2">
         <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
         <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar mx-6">
