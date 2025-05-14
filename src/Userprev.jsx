@@ -5,11 +5,13 @@ const Userprev = ({ user }) => {
   return (
     <div className="w-[420px] bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col">
       {/* User Image */}
+      {user.image && user.image.trim() !== '' && (
       <img
         src={user.image}
         alt={`${user.firstName} ${user.lastName}`}
         className="w-full h-72 object-cover"
       />
+)}
 
       {/* User Info */}
       <div className="px-6 py-4 flex flex-col gap-2">
