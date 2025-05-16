@@ -44,7 +44,6 @@ export default function Login() {
     });
     
     dispatch(addUser(res.data));
-      console.log(res.data);
       return navigate('/feed');
     }catch(err){
       setError(err?.response?.data||'Something went wrong!');

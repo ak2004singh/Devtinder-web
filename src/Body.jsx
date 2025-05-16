@@ -25,7 +25,6 @@ const Body = () => {
       {
         navigate('/login');
       }
-      console.log(err);
     }
   }
   useEffect(() => {
