@@ -3,6 +3,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { removeUser } from './utils/userSlice';
+import { removeFeed } from './utils/feedSlice';
+import { removeConnection } from './utils/connectionSlice';
 
 const NavBar = () => {
   // always call hooks first
@@ -18,6 +20,8 @@ const NavBar = () => {
     try {
       await axios.post('http://localhost:3000/logout', {}, { withCredentials: true });
       dispatch(removeUser());
+      dispatch(removeFeed());
+      dispatch(removeConnection())
       navigate('/login');
     } catch (err) {
       console.error(err);
