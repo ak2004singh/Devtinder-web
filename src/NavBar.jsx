@@ -27,7 +27,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/feed" className="btn btn-ghost text-xl">
           🧑‍💻 DevTinder
         </Link>
       </div>
@@ -59,7 +59,10 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/setting">Settings</Link>
+              <Link to="/connections">Connections</Link>
+            </li>
+            <li>
+              <Link to="/requests">Requests Recieved</Link>
             </li>
             <li>
               <button onClick={handleLogout}>Logout</button>

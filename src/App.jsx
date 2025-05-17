@@ -8,6 +8,8 @@ import Feed from './Feed'
 import Profile from './profile'
 import { Provider } from 'react-redux'
 import appStore from './utils/appStore'
+import Connections from './Connections'
+import Requests from './Requests'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -22,6 +24,8 @@ function App() {
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/logout' element ={<Logout/>}/>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/connections" element={<Connections />} />
+          <Route path="/requests" element={<Requests/>} />
         </Route>
       </Routes>
       </BrowserRouter>

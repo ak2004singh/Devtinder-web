@@ -1,27 +1,32 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { addConnection } from './utils/connectionSlice';
 
 const Connections = () => {
+  const dispatch = useDispatch();
   const [error, setError]=useState("");
-  const connectedPeople = async ()=>
-  {
-    try{
-      const res = await axios.get("http://localhost:3000/user/connections",{withCredentials:true});
-      console.log(res.data.connections);
-      const connections  = res.data.connections;
-        if(connections.length===1)
-        throw new Error("You dont have any connections. \nPlease explore more.");
-    }catch(err)
-    {
-      setError(err.message);
-      console.log(err.message);
-    }
+  const people  = useSelector(store=>store.connection);
+ const connectedPeople = async () => {
+  try {
+    const res = await axios.get("http://localhost:3000/user/connections", { withCredentials: true });
+    const conn = res.data;
+    console.log(conn.connections);
+    dispatch(addConnection(conn.connections)); // FIXED: only dispatch the array\
+  } catch (err) {
+    setError(err.message);
+    console.log(err.message);
   }
+};
+
   useEffect(()=>{
-    connectedPeople();
+    if (!people) connectedPeople();
   },[]);
+ 
+  
+
   return (
-    <div>Connections</div>
+   ( people&&<div>Connections</div>)
   )
 }
 
