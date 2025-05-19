@@ -12,7 +12,7 @@ const Profile = () => {
   const [age,       setAge]       = useState('');
   const [bio,       setBio]       = useState('');
   const [phone,     setPhone]     = useState('');
-  const [skills,    setSkills]    = useState('');
+  const [skills,    setSkills]    = useState([]);
   const [gender,    setGender]    = useState('');
   const [image,     setImage]     = useState('');
   const [location,  setLocation]  = useState('');
@@ -157,7 +157,16 @@ const Profile = () => {
 
             <div>
               <label className="block text-purple-800 font-semibold">Skills (comma separated)</label>
-              <input name="skills" value={skills} onChange={(e)=>setSkills(e.target.value)} className="mt-1 w-full border border-purple-300 rounded-lg px-4 py-2 bg-purple-50 text-purple-900 focus:bg-white focus:ring-2 focus:ring-purple-400" />
+              <input
+                name="skills"
+                value={skills}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSkills(value.split(',').map(skill => skill.trim()));
+                }}
+                className="mt-1 w-full border border-purple-300 rounded-lg px-4 py-2 bg-purple-50 text-purple-900 focus:bg-white focus:ring-2 focus:ring-purple-400"
+              />
+
             </div>
 
             <button type="submit" className="w-full mt-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-lg font-semibold rounded-lg hover:from-pink-600 hover:to-purple-700 shadow-xl">
