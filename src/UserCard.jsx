@@ -1,47 +1,51 @@
-import React from 'react';
+import React from 'react'; 
 import { FaMapMarkerAlt, FaVenusMars, FaHeart, FaTimes } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const UserCard = ({ user, onLike, onIgnore }) => {
   return (
-    <div className="w-[420px] bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-300 overflow-hidden flex flex-col">
+    <div className="w-[420px] bg-gray-800/80 rounded-2xl shadow-xl overflow-hidden flex flex-col backdrop-blur-lg border border-gray-700/50 transform hover:scale-105 transition-all duration-300 animate-fade-in-up">
       
       {/* User Image */}
-      <img
-        src={user.image}
-        alt={`${user.firstName} ${user.lastName}`}
-        className="w-full h-72 object-cover rounded-t-3xl"
-      />
+      {user.image && user.image.trim() !== '' && (
+        <div className="relative">
+          <img
+            src={user.image}
+            alt={`${user.firstName} ${user.lastName}`}
+            className="w-full h-64 object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+          <h2 className="absolute bottom-4 left-4 text-3xl font-extrabold text-white">
+            {user.firstName}{' '}
+            <span className="capitalize">{user.lastName}</span>,{' '}
+            <span className="text-orange-500 font-bold">{user.age}</span>
+          </h2>
+        </div>
+      )}
 
       {/* Content */}
-      <div className="px-6 py-4 flex flex-col gap-2">
-        {/* Name & Age */}
-        <h2 className="text-3xl font-extrabold text-gray-900">
-          {user.firstName} <span className="capitalize">{user.lastName}</span>, 
-          <span className="text-blue-600 font-bold"> {user.age}</span>
-        </h2>
-
+      <div className="px-6 py-4 flex flex-col gap-3">
         {/* Bio */}
-        <p className="text-gray-600 italic">{user.bio}</p>
+        <p className="text-gray-300 text-sm italic">{user.bio}</p>
 
         {/* Location & Gender */}
-        <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+        <div className="flex items-center gap-4 text-sm text-gray-400 mt-1">
           <span className="flex items-center gap-1">
-            <FaMapMarkerAlt className="text-pink-500" />
+            <FaMapMarkerAlt className="text-orange-500" />
             {user.location}
           </span>
-          <span className="flex items-center gap-1">
-            <FaVenusMars className="text-blue-400" />
+          <span className="flex items-center gap-1 capitalize">
+            <FaVenusMars className="text-orange-500" />
             {user.gender}
           </span>
         </div>
 
         {/* Skills */}
         <div className="flex flex-wrap gap-2 mt-3">
-          {user.skills.map((skill, idx) => (
+          {(user.skills || []).map((skill, idx) => (
             <span
               key={idx}
-              className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 text-sm font-semibold px-4 py-1 rounded-full shadow-sm"
+              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md transform hover:scale-110 transition-all duration-200"
             >
               {skill}
             </span>
@@ -50,23 +54,22 @@ const UserCard = ({ user, onLike, onIgnore }) => {
       </div>
 
       {/* Buttons */}
-      <div className="flex justify-between items-center px-6 pb-5 mt-auto gap-4">
+      <div className="flex justify-between items-center px-6 pb-5 gap-4 mt-auto">
         <button
           onClick={onIgnore}
-          className="flex items-center gap-2 bg-gradient-to-r from-red-400 to-red-600 text-white text-sm font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-6 py-2 rounded-full shadow-md transform hover:scale-110 transition-all duration-200"
         >
           <motion.div whileHover={{ scale: 1.3 }} transition={{ type: 'spring', stiffness: 300 }}>
-            <FaTimes className="text-sm" />
+            <FaTimes />
           </motion.div>
           Ignore
         </button>
-
         <button
           onClick={onLike}
-          className="flex items-center gap-2 bg-gradient-to-r from-green-400 to-green-600 text-white text-sm font-semibold px-6 py-2 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-6 py-2 rounded-full shadow-md transform hover:scale-110 transition-all duration-200"
         >
           <motion.div whileHover={{ scale: 1.3 }} transition={{ type: 'spring', stiffness: 300 }}>
-            <FaHeart className="text-sm" />
+            <FaHeart />
           </motion.div>
           Interested
         </button>
