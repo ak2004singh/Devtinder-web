@@ -12,7 +12,7 @@ const UserCard = ({ user, onLike, onIgnore }) => {
           <img
             src={user.image}
             alt={`${user.firstName} ${user.lastName}`}
-            className="w-full h-64 object-cover opacity-80"
+            className="w-full h-80 object-cover opacity-80" // Increased height here (h-80)
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
           <h2 className="absolute bottom-4 left-4 text-3xl font-extrabold text-white">

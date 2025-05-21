@@ -24,11 +24,7 @@ const Requests = () => {
   };
 
   useEffect( () => {
-    if (!peopleInStore) {
       fetchRequests();      
-    } else {
-      setLocalPeople(peopleInStore);
-    }
   }, []);
   useEffect(()=>{
           setLocalPeople(peopleInStore);
