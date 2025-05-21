@@ -22,11 +22,11 @@ const Connections = () => {
   useEffect(() => {
     if (people.length === 0) connectedPeople();
   }, []);
-
-  if (error) return <div className="text-red-500 mt-4">Error: {error}</div>;
+  /// ui of the page 
+  {if (error) return <div className="text-red-500 mt-4">Error: {error}</div>;
 
   return (
-    <div className="p-6 min-h-screen flex flex-col items-center relative overflow-hidden">
+  <div className="p-6 min-h-screen flex flex-col items-center relative overflow-hidden">
       {/* Background Image with Overlay */}
       <div
         className="absolute inset-0"
@@ -165,5 +165,5 @@ const Connections = () => {
     </div>
   );
 };
-
+}
 export default Connections;

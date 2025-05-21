@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { removeUser } from './utils/userSlice';
 import { removeFeed } from './utils/feedSlice';
 import { removeConnection } from './utils/connectionSlice';
+import { removeRequest } from './utils/requestSlice';
 
 const NavBar = () => {
   // always call hooks first
@@ -21,7 +22,8 @@ const NavBar = () => {
       await axios.post('http://localhost:3000/logout', {}, { withCredentials: true });
       dispatch(removeUser());
       dispatch(removeFeed());
-      dispatch(removeConnection())
+      dispatch(removeConnection());
+      dispatch(removeRequest());
       navigate('/login');
     } catch (err) {
       console.error(err);
