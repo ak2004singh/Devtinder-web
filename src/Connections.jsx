@@ -19,8 +19,7 @@ const Connections = () => {
     }
   };
 
-  useEffect(() => {
-    if (people.length === 0) connectedPeople();
+  useEffect(() => { connectedPeople();
   }, []);
   /// ui of the page 
   {if (error) return <div className="text-red-500 mt-4">Error: {error}</div>;
