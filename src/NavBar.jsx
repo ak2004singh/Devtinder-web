@@ -15,8 +15,6 @@ const NavBar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  if (!user) return null;
-
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:3000/logout', {}, { withCredentials: true });
@@ -35,6 +33,7 @@ const NavBar = () => {
   return (
     <>
       <Toaster position="top-center" />
+
       <nav
         className="
           fixed top-0 left-0 w-full z-50
@@ -44,7 +43,7 @@ const NavBar = () => {
         "
       >
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo always shown */}
           <Link
             to="/feed"
             className="
@@ -57,84 +56,98 @@ const NavBar = () => {
             🚀 CollabOne
           </Link>
 
-          {/* Desktop menu */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* If no user: show login prompt */}
+          {!user && (
             <Link
-              to="/profile"
+              to="/login"
               className="text-orange-400 font-medium hover:underline hover:text-orange-300"
             >
-              {user.firstName} {user.lastName}
+              Login to explore
             </Link>
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar hover:scale-105 transition"
-              >
-                <div className="w-10 rounded-full ring ring-orange-500 ring-offset-base-100 ring-offset-2">
-                  <img alt="avatar" src={user.image} />
-                </div>
-              </div>
-              <ul
-                tabIndex={0}
-                className="
-                  menu menu-sm dropdown-content
-                  bg-gray-800/90 text-white rounded-xl mt-3 w-52
-                  shadow-lg border border-gray-700 backdrop-blur
-                "
-              >
-                <li>
-                  <Link to="/profile" className="hover:bg-orange-500/20">
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/connections" className="hover:bg-orange-500/20">
-                    Connections
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/requests" className="hover:bg-orange-500/20">
-                    Requests
-                  </Link>
-                </li>
-                <li>
-                  <button onClick={handleLogout} className="hover:bg-red-500/20 text-red-300">
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
+          )}
 
-          {/* Mobile toggle */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setMenuOpen((o) => !o)}
-              className="btn btn-ghost text-orange-400"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          {/* If user is present: show full desktop menu */}
+          {user && (
+            <div className="hidden md:flex items-center gap-4">
+              <Link
+                to="/profile"
+                className="text-orange-400 font-medium hover:underline hover:text-orange-300"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d={
-                    menuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'
-                  }
-                />
-              </svg>
-            </button>
-          </div>
+                {user.firstName} {user.lastName}
+              </Link>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar hover:scale-105 transition"
+                >
+                  <div className="w-10 rounded-full ring ring-orange-500 ring-offset-base-100 ring-offset-2">
+                    <img alt="avatar" src={user.image} />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="
+                    menu menu-sm dropdown-content
+                    bg-gray-800/90 text-white rounded-xl mt-3 w-52
+                    shadow-lg border border-gray-700 backdrop-blur
+                  "
+                >
+                  <li>
+                    <Link to="/profile" className="hover:bg-orange-500/20">
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/connections" className="hover:bg-orange-500/20">
+                      Connections
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/requests" className="hover:bg-orange-500/20">
+                      Requests
+                    </Link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout} className="hover:bg-red-500/20 text-red-300">
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Mobile toggle (only when user is present) */}
+          {user && (
+            <div className="md:hidden">
+              <button
+                onClick={() => setMenuOpen((o) => !o)}
+                className="btn btn-ghost text-orange-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={
+                      menuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'
+                    }
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Mobile menu */}
-        {menuOpen && (
+        {/* Mobile menu (only when user is present) */}
+        {user && menuOpen && (
           <div className="md:hidden mt-2 space-y-2">
             <Link
               to="/profile"
