@@ -110,6 +110,7 @@ export default function Login() {
       case 'login':
         return (
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium" >Email</label>
               <input value={email} onChange={(e)=>setEmail(e.target.value)} id="email" type="email" required className={sharedInputClasses}  />
@@ -247,6 +248,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex bg-gray-900 text-white">
+      
       {/* Left image panel with slideshow */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <AnimatePresence mode="wait">
