@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConnection } from './utils/connectionSlice';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -104,8 +106,7 @@ const Connections = () => {
                   </div>
                   <div className="flex flex-col items-center gap-2 pr-2">
                     {/* Chat Icon with Non-Purple Gradient */}
-                    <motion.button
-                      onClick={() => console.log('Chat with', person._id)}
+                    <Link to={`/chat/${person._id}`}><motion.button
                       className="p-3 bg-gradient-to-r from-[#0a1a3a] to-[#ff5733] text-white rounded-full"
                       whileHover={{ scale: 1.2, rotate: 10 }}
                       whileTap={{ scale: 0.9, rotate: -5 }}
@@ -126,7 +127,7 @@ const Connections = () => {
                           d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.914L3 20l1.167-4.58A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                         />
                       </svg>
-                    </motion.button>
+                    </motion.button></Link>
                     {/* Disconnect Button (Visible on Hover) */}
                     <motion.button
                       onClick={() => console.log('Disconnect', person._id)}

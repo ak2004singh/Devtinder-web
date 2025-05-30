@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import appStore from './utils/appStore'
 import Connections from './Connections'
 import Requests from './Requests'
+import Chat from './Chat'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/connections" element={<Connections />} />
           <Route path="/requests" element={<Requests/>} />
+          <Route path="/chat/:targetId" element={<Chat/>} />
         </Route>
       </Routes>
       </BrowserRouter>
