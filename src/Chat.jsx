@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { socketconnection } from './utils/socket';
+import { useSelector } from 'react-redux';
 
 const Chat = () => {
   const { targetId } = useParams();
+  const user = useSelector((s) => s.user?.user);
   console.log(targetId);
-
+  useEffect(()=>{
+    if(!user)
+      return ;
+    const userId = user._id;
+    const firstName = user.firstName;
+    const socket  = socketconnection();
+    
+    socket.emit("joinChat",{firstName,userId,targetId});
+    return ()=>{
+      socket.off("joinChat");
+      socket.disconnect();
+    };
+  },[user,targetId]);
   return (
     <div className="p-6 min-h-screen flex flex-col items-center relative overflow-hidden bg-gray-100">
       {/* Background Image with Overlay */}
@@ -53,7 +68,7 @@ const Chat = () => {
         </Link>
         <div className="w-10 h-10 rounded-full overflow-hidden ml-3">
           <img
-            src="https://via.placeholder.com/40"
+            src="https://ui-avatars.com/api/?name=User"
             alt="User avatar"
             className="w-full h-full object-cover"
           />
