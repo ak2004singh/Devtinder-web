@@ -5,9 +5,9 @@ import { socketconnection } from './utils/socket';
 import { useSelector } from 'react-redux';
 
 const Chat = () => {
-  const { targetId } = useParams();
+  const { targetId ,firstName,lastName,image} = useParams();
+  const imageUrl = decodeURIComponent(image);
   const user = useSelector((s) => s.user?.user);
-  console.log(targetId);
   useEffect(()=>{
     if(!user)
       return ;
@@ -68,13 +68,13 @@ const Chat = () => {
         </Link>
         <div className="w-10 h-10 rounded-full overflow-hidden ml-3">
           <img
-            src="https://ui-avatars.com/api/?name=User"
+            src={imageUrl}
             alt="User avatar"
             className="w-full h-full object-cover"
           />
         </div>
-        <h2 className="ml-3 text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-[#0a1a3a] to-[#ff5733]">
-          {targetId}
+        <h2 className="ml-3 text-lg font-bold ">
+          {`${firstName} ${lastName}`}
         </h2>
       </motion.div>
 
