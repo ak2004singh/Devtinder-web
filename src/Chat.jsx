@@ -5,22 +5,21 @@ import { socketconnection } from './utils/socket';
 import { useSelector } from 'react-redux';
 
 const Chat = () => {
-  const { targetId ,firstName,lastName,image} = useParams();
+  const { targetId, firstName, lastName, image } = useParams();
   const imageUrl = decodeURIComponent(image);
   const user = useSelector((s) => s.user?.user);
-  useEffect(()=>{
-    if(!user)
-      return ;
+  useEffect(() => {
+    if (!user) return;
     const userId = user._id;
     const firstName = user.firstName;
-    const socket  = socketconnection();
-    
-    socket.emit("joinChat",{firstName,userId,targetId});
-    return ()=>{
+    const socket = socketconnection();
+
+    socket.emit("joinChat", { firstName, userId, targetId });
+    return () => {
       socket.off("joinChat");
       socket.disconnect();
     };
-  },[user,targetId]);
+  }, [user, targetId]);
   return (
     <div className="p-6 min-h-screen flex flex-col items-center relative overflow-hidden bg-gray-100">
       {/* Background Image with Overlay */}
@@ -89,30 +88,44 @@ const Chat = () => {
         <div className="flex-1 p-4 overflow-y-auto">
           {/* Received Message */}
           <motion.div
-            className="mb-4 flex justify-start"
+            className="chat chat-start mb-4"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="relative bg-[#e6e6fa] p-3 rounded-lg max-w-xs shadow-md">
-              <p className="text-sm text-gray-800">Hey, how's it going?</p>
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  alt="User avatar"
+                  src={imageUrl}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="chat-bubble bg-[#e6e6fa] text-gray-800">
+              <p className="text-sm">Hey, how's it going?</p>
               <span className="text-xs text-gray-500 mt-1 block">12:30 PM</span>
-              {/* Tail for received message */}
-              <div className="absolute left-0 top-1 -ml-2 w-3 h-3 bg-[#e6e6fa] transform rotate-45" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }} />
             </div>
           </motion.div>
           {/* Sent Message */}
           <motion.div
-            className="mb-4 flex justify-end"
+            className="chat chat-end mb-4"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <div className="relative bg-gradient-to-r from-[#1e3a8a] to-[#f97316] text-white p-3 rounded-lg max-w-xs shadow-md">
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  alt="User avatar"
+                  src={user?.image || 'https://via.placeholder.com/40'}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="chat-bubble bg-gradient-to-r from-[#1e3a8a] to-[#f97316] text-white">
               <p className="text-sm">Doing great, thanks for asking!</p>
               <span className="text-xs text-white/80 mt-1 block text-right">12:32 PM</span>
-              {/* Tail for sent message */}
-              <div className="absolute right-0 top-1 -mr-2 w-3 h-3 bg-gradient-to-r from-[#1e3a8a] to-[#f97316] transform rotate-45" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }} />
             </div>
           </motion.div>
           {/* Add more message bubbles as needed */}
