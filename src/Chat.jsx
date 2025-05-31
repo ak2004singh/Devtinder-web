@@ -1,25 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { socketconnection } from './utils/socket';
 import { useSelector } from 'react-redux';
 
 const Chat = () => {
+  const [messages,setMessages]=useState([]);
+  const [newMessage,setNewMessage]= useState("");
   const { targetId, firstName, lastName, image } = useParams();
   const imageUrl = decodeURIComponent(image);
   const user = useSelector((s) => s.user?.user);
   useEffect(() => {
     if (!user) return;
     const userId = user._id;
-    const firstName = user.firstName;
+    const firstName1 = user.firstName;
     const socket = socketconnection();
 
-    socket.emit("joinChat", { firstName, userId, targetId });
+    socket.emit("joinChat", { firstName1, userId, targetId });
+    socket.on("messageReceived",({firstName1,text})=>{console.log(firstName1 +" "+text);});
     return () => {
       socket.off("joinChat");
       socket.disconnect();
     };
   }, [user, targetId]);
+  const send = ()=>{
+    const userId = user._id;
+    const firstName1 = user.firstName;
+    const socket = socketconnection();
+    socket.emit("sendMessage",{firstName1,userId,targetId,text:newMessage});
+    setNewMessage("");
+  }
   return (
     <div className="p-6 min-h-screen flex flex-col items-center relative overflow-hidden bg-gray-100">
       {/* Background Image with Overlay */}
@@ -143,6 +153,7 @@ const Chat = () => {
               type="text"
               placeholder="Type your message..."
               className="flex-1 bg-white/10 text-white placeholder-gray-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#ff5733] transition-all"
+              value={newMessage} onChange={(e)=>setNewMessage(e.target.value)}
             />
             <motion.button
               className="p-3 bg-gradient-to-r from-[#0a1a3a] to-[#ff5733] text-white rounded-full"
@@ -150,6 +161,7 @@ const Chat = () => {
               whileTap={{ scale: 0.9, rotate: -5 }}
               animate={{ scale: [1, 1.1, 1], transition: { repeat: Infinity, duration: 1.5 } }}
               transition={{ type: 'spring', stiffness: 300 }}
+              onClick={send}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
